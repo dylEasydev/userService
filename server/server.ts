@@ -1,6 +1,6 @@
 import expressServer from './app';
 import http from 'http';
-import { initDb } from './db/initdb';
+import { initDB } from './db/initDB';
 
 export const launchHttpServer = ()=>{
     const port:unknown = process.env.PORT ;
@@ -8,7 +8,7 @@ export const launchHttpServer = ()=>{
     
     const domainServer = http.createServer(expressServer);
     
-    initDb().then(()=>console.log(`synchronisation réussi`)).catch(error => console.log(`Error:${error}`));
+    initDB().then(()=>console.log(`synchronisation réussi`)).catch(error => console.log(`Error:${error}`));
     
     try {
         domainServer.listen(port as number , hostName,()=>{
