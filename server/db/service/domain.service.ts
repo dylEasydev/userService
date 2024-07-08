@@ -32,8 +32,10 @@ export class DomainService implements DomainServiceInterface{
             try {
                 const domainSubcribes = await this.axiosRequest.get<
                 {message:string; data:any;}
-                >(`/follow`);
-                if(domainSubcribes.status < 200 && domainSubcribes.status > 300){
+                >(`/follow`,{
+                    validateStatus:(status:number)=>{return status < 500}
+                });
+                if(domainSubcribes.status < 200 || domainSubcribes.status > 300){
                     reject(
                         new RequestError(
                             domainSubcribes.status,

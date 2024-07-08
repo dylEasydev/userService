@@ -2,6 +2,7 @@ import { BaseController } from './base.controller';
 import { Request , Response } from 'express';
 import { statusResponse ,CodeStatut } from '../helper';
 import { DomainService, RequestError } from '../db/service/domain.service';
+import { AxiosError } from 'axios';
 
 export class ProfilUserController extends BaseController{
 
@@ -25,15 +26,14 @@ export class ProfilUserController extends BaseController{
                     `Aucun Token n'as été fourni !`
                 );
             }
-
             const [domainSubcribes] = await Promise.all(
                 [
-                    new DomainService(token).getDomainsubcribes()
+                    await new DomainService(token).getDomainsubcribes()
                 ]
             )
             const profilUser={domainSubcribes:domainSubcribes.data};
             return statusResponse.sendResponseJson(
-                CodeStatut.CLIENT_STATUS,
+                CodeStatut.VALID_STATUS,
                 res,
                 `votre profil à bien été envoyer`,
                 profilUser
@@ -47,7 +47,12 @@ export class ProfilUserController extends BaseController{
                     error.data
                 )
             }
-
+            return statusResponse.sendResponseJson(
+                CodeStatut.SERVER_STATUS,
+                res,
+                `Erreur au niveau du serveur , réessayer plus tard`,
+                error
+            )
         }
     }
 }

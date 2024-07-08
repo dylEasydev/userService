@@ -127,14 +127,18 @@ class UserService implements UserServiceInterface{
                 const tableUser = await sequelizeConnect.transaction(async t=>{
                     return await User.findAndCountAll({
                         where:{
-                            [Op.or]:{
-                                userName:{
-                                    [Op.in]:`%${search}%`
+                            [Op.or]:[
+                                {
+                                    userName:{
+                                        [Op.like]:`%${search}%`
+                                    }
                                 },
-                                addressMail:{
-                                    [Op.in]:`%${search}%`
+                                {
+                                    addressMail:{
+                                        [Op.like]:`%${search}%`
+                                    }
                                 }
-                            }
+                            ]
                         },
                         limit,
                         attributes:{
@@ -173,7 +177,9 @@ class UserService implements UserServiceInterface{
                                 ]
                             }
                         ],
-                        order:['userName','DESC']
+                        order:[[
+                            'userName','DESC'
+                        ]]
                     })
                 });
                 resolve(tableUser);

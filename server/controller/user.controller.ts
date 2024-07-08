@@ -83,6 +83,7 @@ export class UserController extends BaseController{
                 tableUser.rows
             );
         } catch (error) {
+            console.log(error);
             return statusResponse.sendResponseJson(
                 CodeStatut.SERVER_STATUS,
                 res,
