@@ -64,7 +64,7 @@ export class UserController extends BaseController{
 
     async findAllUser(req:Request ,res:Response){
         try {
-            const limit = req.query.limit? parseInt(req.query.limit as string) : 5;
+            const limit = req.query.limit? parseInt(req.query.limit as string) : undefined;
             if(req.query.search){
                 const search = req.query.search as string;
                 const tableUser = await userService.findAllUsers(limit,search);

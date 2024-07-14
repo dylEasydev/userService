@@ -7,7 +7,7 @@ CodeVerif.afterSave((instance,options)=>{
         try {
             const user = await instance.getForeignObject({transaction:options.transaction});
             if(user  !== null){
-                const message = `Bienvenue chez easy class companing\nutiliser ce code pour verifier votre mail\n code:${instance.codeverif}`;
+                const message = `Bienvenue chez easy class companing<br>utiliser ce code pour verifier votre mail<br> code:${instance.codeverif}`;
                 const subject = `Verification de compte`;
                 await mailer.sendMail(user.addressMail,message,subject);
                 resolve();

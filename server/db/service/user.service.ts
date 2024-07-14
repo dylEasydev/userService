@@ -118,7 +118,7 @@ class UserService implements UserServiceInterface{
         })
     }
 
-    findAllUsers(limit=5, search=''){
+    findAllUsers(limit?:number, search=''){
         return new Promise<{
             rows:UserBaseInterface[];
             count:number;
@@ -244,7 +244,7 @@ class UserService implements UserServiceInterface{
             try {
                 resolve(
                     await sequelizeConnect.transaction(async t=>{
-                        instance.destroy({
+                        await instance.destroy({
                             force:true
                         })
                     })
@@ -260,7 +260,7 @@ class UserService implements UserServiceInterface{
             try {
                 resolve(
                     await sequelizeConnect.transaction(async t=>{
-                        instance.destroy();
+                        await instance.destroy();
                     })
                 )
             } catch (error) {

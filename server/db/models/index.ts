@@ -7,6 +7,5 @@ import { Image } from './image.model';
 import { AuthPermission } from './authPermisssion.model';
 
 export {
-    User ,Role,Scope,UserBase,
-    CodeVerif , Image,AuthPermission
+    User ,Role,Scope,UserBase,CodeVerif , Image,AuthPermission
 }

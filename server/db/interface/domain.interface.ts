@@ -3,7 +3,7 @@ export interface Domain{
     domainName:string;
     domainDescript:string;
     image?:string;
-    nbreSubcribes:number;
+    nbreSubcribe:number;
 
     readonly createdAt:Date;
     readonly updatedAt:Date;

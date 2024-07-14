@@ -75,7 +75,7 @@ export class AdminController extends BaseController{
                         `Aucune Permission de suspenssion  d'un compte!`
                     );
                 }else{
-                    if(!userToken.scope.includes('deleted:user'))
+                    if(!userToken.scope.includes('suspend:user'))
                         return statusResponse.sendResponseJson(
                             CodeStatut.NOT_PERMISSION_STATUS,
                             res,

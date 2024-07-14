@@ -13,7 +13,6 @@ export interface UserBaseInterface extends Model<
     password:string;
     addressMail:string;
     
-    //timestamps
     readonly createdAt:CreationOptional<Date>;
     readonly updatedAt:CreationOptional<Date>;
     readonly deletedAt:CreationOptional<Date>;
