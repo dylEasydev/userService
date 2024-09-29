@@ -12,6 +12,7 @@ export class User extends UserBase implements UserInterface{
     declare image?: NonAttribute<string> | undefined;
     declare role?: NonAttribute<RoleInterface> | undefined;
 
+    //declaration des alias associations 
     static associations: { 
         role: Association<UserInterface , RoleInterface>;
     };

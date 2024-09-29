@@ -16,8 +16,8 @@ Image.init({
         allowNull:false,
         defaultValue:`profil_default.png`,
         validate:{
-            notEmpty:{msg:`Veillez fournir un nom à Votre image`},
-            notNull:{msg:`Veillez fournir un nom à Votre image`},
+            notEmpty:{msg:`Veillez fournir un nom à Votre image !`},
+            notNull:{msg:`Veillez fournir un nom à Votre image !`},
             len:{
                 msg:`le nom de l'image doit être entre 4 et 30 carractères`,
                 args: [4 , 30]
@@ -33,9 +33,9 @@ Image.init({
         allowNull:false,
         defaultValue:`${__basedir}/public/profil_default.png`,
         validate:{
-            notEmpty:{msg:`Veillez fournir une url à votre image`},
-            notNull:{msg:`Veillez fournir une url à votre image`},
-            isUrl:{msg:`Veillez fournir une url valide`}
+            notEmpty:{msg:`Veillez fournir une url à votre image !`},
+            notNull:{msg:`Veillez fournir une url à votre image !`},
+            isUrl:{msg:`Veillez fournir une url valide !`}
         }
     },
     nameTable:{

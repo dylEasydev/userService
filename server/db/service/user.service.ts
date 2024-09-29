@@ -130,12 +130,16 @@ class UserService implements UserServiceInterface{
                             [Op.or]:[
                                 {
                                     userName:{
-                                        [Op.like]:`%${search}%`
+                                        [Op.like]:{
+                                            [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                        }
                                     }
                                 },
                                 {
                                     addressMail:{
-                                        [Op.like]:`%${search}%`
+                                        [Op.like]:{
+                                            [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                        }
                                     }
                                 }
                             ]
@@ -216,8 +220,7 @@ class UserService implements UserServiceInterface{
                         password:newPass
                     },{hooks:true});
                 })
-                resolve(userUpdate)
-            
+                resolve(userUpdate);            
             } catch (error) {
                 reject(error);
             }
@@ -255,7 +258,7 @@ class UserService implements UserServiceInterface{
         })
     }
 
-    suspendreUser(instance:User){
+    suspendUser(instance:User){
         return new Promise<void>(async (resolve, reject) => {
             try {
                 resolve(
@@ -285,6 +288,139 @@ class UserService implements UserServiceInterface{
         })
     }
 
+    restoreUser(id:number){
+        return new Promise<User|null>(async(resolve, reject)=>{
+            try {
+                const userRestore = await sequelizeConnect.transaction(async t=>{
+                    const userFind = await User.findByPk(id,{
+                        attributes:{
+                            include:[
+                                [
+                                    sequelizeConnect.literal(
+                                        sequelizeConnect.getDialect() !== 'postgres'?
+                                        `(
+                                        SELECT urlPictures FROM image as picture
+                                        WHERE 
+                                            picture.foreignId = User.id
+                                            AND
+                                            picture.nameTable ="user"
+                                        LIMIT 1
+                                    )`:  `(
+                                        SELECT "urlPictures" FROM "image"
+                                        WHERE 
+                                            "foreignId" = "User"."id"
+                                            AND
+                                            "nameTable" ='user'
+                                        LIMIT 1
+                                    )`),`image`
+                                ]
+                            ]
+                        },
+                        include:[
+                            {
+                                association:User.associations.role,
+                                include:[
+                                    {
+                                        association:Role.associations.scopes,
+                                        through:{
+                                            attributes:[]
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        paranoid:false
+                    });
+                    if(userFind) await userFind.restore();
+                    return userFind;
+                })
+                resolve(userRestore);
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
+
+    findAllUsersSuspend(limit?:number, search=''){
+        return new Promise<{
+            rows:UserBaseInterface[];
+            count:number;
+        }>(async(resolve, reject) => {
+            try {
+                const tableUser = await sequelizeConnect.transaction(async t=>{
+                    return await User.findAndCountAll({
+                        where:{
+                            [Op.or]:[
+                                {
+                                    userName:{
+                                        [Op.like]:{
+                                            [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                        }
+                                    }
+                                },
+                                {
+                                    addressMail:{
+                                        [Op.like]:{
+                                            [Op.any]:search?search.split('').map(chaine=>`%${chaine}%`):['']
+                                        }
+                                    }
+                                },
+                                {
+                                    deletedAt:{
+                                        [Op.not]:null
+                                    }
+                                }
+                            ]
+                        },
+                        limit,
+                        attributes:{
+                            include:[
+                                [
+                                    sequelizeConnect.literal(
+                                        sequelizeConnect.getDialect() !=='postgres'?
+                                        `(
+                                        SELECT urlPictures FROM image as picture
+                                        WHERE 
+                                            picture.foreignId = User.id
+                                            AND
+                                            picture.nameTable = "user"
+                                        LIMIT 1
+                                    )`:  `(
+                                        SELECT "urlPictures" FROM "image"
+                                        WHERE 
+                                            "foreignId" = "User"."id"
+                                            AND
+                                            "nameTable" = 'user'
+                                        LIMIT 1
+                                    )`,),`image`
+                                ]
+                            ]
+                        },
+                        include:[
+                            {
+                                association:User.associations.role,
+                                include:[
+                                    {
+                                        association:Role.associations.scopes,
+                                        through:{
+                                            attributes:[]
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        paranoid:false,
+                        order:[[
+                            'userName','DESC'
+                        ]]
+                    })
+                });
+                resolve(tableUser);
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }
 }
 
 const userService = new UserService();

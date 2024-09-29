@@ -1,11 +1,19 @@
 import expressServer from './app';
-import http from 'http';
+import http from 'node:http2';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { __basedir } from './global_dir';
 
 export const launchHttpServer = ()=>{
     const port:unknown = process.env.PORT ;
     const hostName = process.env.HOSTNAME;
     
-    const domainServer = http.createServer(expressServer);
+    const options ={
+        key:readFileSync(join(__basedir, 'server.key')),
+        cert:readFileSync(join(__basedir,'server.crt')),
+        allowHTTP1:true
+    }
+    const domainServer = http.createSecureServer(options,expressServer);
     
     try {
         domainServer.listen(port as number , hostName,()=>{

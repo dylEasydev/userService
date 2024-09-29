@@ -3,7 +3,7 @@ import { BaseRouter } from './base.router';
 
 class ProfilUserRouter extends BaseRouter<ProfilUserController>{
     public initRoute(){
-        this.routerServeur.get('/',this.controllerService.findDomainSubcribes);
+        this.routerServeur.get('/',this.controllerService.findProfilUser);
     }
 }
 

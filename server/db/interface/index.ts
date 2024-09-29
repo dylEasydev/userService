@@ -7,8 +7,10 @@ import { CodeVerifInterface } from './codeVerif.interface';
 import {UserBaseInterface} from './userBase.interface';
 import { Token } from './token.interface';
 import { Domain } from './domain.interface';
+import { Matter } from './matter.interface';
 
 export {
     ImageInterface,UserInterface,RoleInterface,ScopeInterface,Token,
-    AuthPermissionInterface,CodeVerifInterface,UserBaseInterface,Domain
+    AuthPermissionInterface,CodeVerifInterface,UserBaseInterface,Domain,
+    Matter
 };

@@ -13,9 +13,11 @@ export interface UserBaseInterface extends Model<
     password:string;
     addressMail:string;
     
+    //timestamps
     readonly createdAt:CreationOptional<Date>;
     readonly updatedAt:CreationOptional<Date>;
-    readonly deletedAt:CreationOptional<Date>;
+    readonly deletedAt:CreationOptional<Date|null>;
 
+    //code de verification (util pour la mis à jour du password !)
     codeVerif?:NonAttribute<number> |undefined;
 }

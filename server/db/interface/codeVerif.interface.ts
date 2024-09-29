@@ -1,6 +1,5 @@
 import { 
-    Model,CreationOptional,InferAttributes , 
-    InferCreationAttributes, FindOptions 
+    Model,CreationOptional,InferAttributes , InferCreationAttributes, FindOptions 
 } from 'sequelize';
 import { 
     UserBaseInterface,UserInterface

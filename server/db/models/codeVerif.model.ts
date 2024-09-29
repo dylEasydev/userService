@@ -24,6 +24,7 @@ export class CodeVerif extends Model<
     [key: string]: (
         (options?: FindOptions<InferAttributes<UserBaseInterface>>) => Promise<UserBaseInterface>
     )|any;
+
     getForeignObject(
         options?:FindOptions<FindOptions<UserBaseInterface>>
     ):Promise<UserBaseInterface|null>{
@@ -37,7 +38,7 @@ export class CodeVerif extends Model<
     ){
         return new Promise<UserInterface|null>(async(resolve, reject) => {
             try {
-                if(this.nameTable !== 'user')resolve(null);
+                if(this.nameTable !== User.tableName)resolve(null);
                 else{
                     const user = await User.findByPk(this.foreignId,options);
                     resolve(user)
@@ -50,6 +51,7 @@ export class CodeVerif extends Model<
 
     declare foreignData?: NonAttribute<UserBaseInterface> | undefined;
 
+    //timestamps
     declare readonly createdAt: CreationOptional<Date>;
     declare readonly deletedAt: CreationOptional<Date>;
     declare readonly updatedAt: CreationOptional<Date>;

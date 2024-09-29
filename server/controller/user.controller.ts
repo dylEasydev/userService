@@ -9,7 +9,8 @@ export class UserController extends BaseController{
     async findUserById(req:Request , res:Response){
         if(req.params.id){
             try {
-               const userFind = await userService.findUserById(parseInt(req.params.id));
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
+               const userFind = await userService.findUserById(id);
                if(userFind === null){
                     return statusResponse.sendResponseJson(
                         CodeStatut.NOT_FOUND_STATUS,
@@ -64,9 +65,9 @@ export class UserController extends BaseController{
 
     async findAllUser(req:Request ,res:Response){
         try {
-            const limit = req.query.limit? parseInt(req.query.limit as string) : undefined;
+            const limit = (typeof req.query.limit === 'string' )? parseInt(req.query.limit):undefined;
             if(req.query.search){
-                const search = req.query.search as string;
+                const search = typeof req.query.search === 'string'?req.query.search:'';
                 const tableUser = await userService.findAllUsers(limit,search);
                 return statusResponse.sendResponseJson(
                     CodeStatut.VALID_STATUS,
@@ -83,7 +84,6 @@ export class UserController extends BaseController{
                 tableUser.rows
             );
         } catch (error) {
-            console.log(error);
             return statusResponse.sendResponseJson(
                 CodeStatut.SERVER_STATUS,
                 res,
@@ -248,7 +248,7 @@ export class UserController extends BaseController{
     async updatePasswordForget(req:Request , res:Response){
         try {
             if(req.params.id){
-                const id = parseInt(req.params.id);
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
                 let {codeverif , password } = req.body;
                 if(typeof codeverif !== 'number') codeverif = typeof codeverif === 'string'? parseInt(codeverif):0;
 
@@ -298,7 +298,7 @@ export class UserController extends BaseController{
     async verifCode(req:Request , res:Response){
         try {
             if(req.params.id){
-                const id = parseInt(req.params.id);
+                const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
                 let {codeverif } = req.body;
                 if(typeof codeverif !== 'number') codeverif = typeof codeverif === 'string'? parseInt(codeverif):0;
 

@@ -15,6 +15,7 @@ export interface ScopeInterface extends Model<
     
     roles?: NonAttribute<RoleInterface[]>|undefined;
 
+    //timestamps
     readonly createdAt:CreationOptional<Date>;
     readonly updatedAt:CreationOptional<Date>;
     readonly deletedAt:CreationOptional<Date>;

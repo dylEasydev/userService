@@ -20,6 +20,7 @@ export class Scope extends Model<
 
     declare roles?: NonAttribute<RoleInterface[]>| undefined;
 
+    //declartion des alias d'associations 
     declare static associtions:{
         roles: Association<ScopeInterface , RoleInterface>;
     }

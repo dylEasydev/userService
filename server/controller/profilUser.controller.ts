@@ -1,37 +1,25 @@
 import { BaseController } from './base.controller';
 import { Request , Response } from 'express';
 import { statusResponse ,CodeStatut } from '../helper';
-import { DomainService, RequestError } from '../db/service/domain.service';
-import { AxiosError } from 'axios';
+import { MatterService,DomainService, RequestError } from '../db/service';
 
 export class ProfilUserController extends BaseController{
 
-    async findDomainSubcribes(req:Request , res :Response){
+    async findProfilUser(req:Request , res :Response){
         try {
             const bearerToken = req.headers.authorization;
+            const token = bearerToken?.split(' ')[1];
 
-            if(!bearerToken){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucun Token n'as été fourni !`
-                );
-            }
-
-            const token = bearerToken.split(' ')[1];
-            if(!token){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucun Token n'as été fourni !`
-                );
-            }
-            const [domainSubcribes] = await Promise.all(
+            const [domainSubcribes , matterSubcribes ] = await Promise.all(
                 [
-                    await new DomainService(token).getDomainsubcribes()
+                    await new DomainService(token).getDomainsubcribes(),
+                    token?await new MatterService(token).getMatterSubcribes():await Promise.resolve(null)
                 ]
             )
-            const profilUser={domainSubcribes:domainSubcribes.data};
+            const profilUser={
+                domainSubcribes:domainSubcribes.data , 
+                matterSubcribes:matterSubcribes?.data
+            };
             return statusResponse.sendResponseJson(
                 CodeStatut.VALID_STATUS,
                 res,

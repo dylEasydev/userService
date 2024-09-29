@@ -25,6 +25,7 @@ export class Role extends Model<
     declare user?: NonAttribute<UserInterface>| undefined;
     declare scopes?: NonAttribute<ScopeInterface[]>| undefined;
 
+    //declarations d'alias d'associations 
     declare static associations: { 
         user: Association<RoleInterface, UserInterface>;
         scopes: Association<RoleInterface , ScopeInterface>; 

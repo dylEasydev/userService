@@ -4,10 +4,10 @@ import axios,{ AxiosInstance } from 'axios';
 
 export class RequestError extends Error{
     public status:number;
-    public data:any;
+    public data:unknown;
     constructor(
         status:number,
-        data:any,
+        data:unknown,
         message?:string
     ){
         super(message);
@@ -23,7 +23,9 @@ export class DomainService implements DomainServiceInterface{
             baseURL:'http://localhost:3002/',
             timeout:3000,
             headers:{
-                Authorization:`Bearer ${jeton}`
+                Authorization:`Bearer ${jeton}`,
+                Connection:"keep-alive",
+                Upgrade:"h2"
             }
         })
     }

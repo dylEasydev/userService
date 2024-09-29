@@ -23,7 +23,7 @@ User.init({
                 msg:`Veillez fournir un nom d'utilisateur sans carractères spéciaux !`
             },
             len:{
-                msg:` le nom d'utilisateur doit être entre 4 et30 carractères !`,
+                msg:` Le nom d'utilisateur doit être entre 4 et30 carractères !`,
                 args:[4,30]
             },
             notNull:{msg:`Veillez founir une autre valeur que <<null>> pour le nom d'utilisateur !`},
@@ -40,7 +40,7 @@ User.init({
         allowNull: false,
         validate:{
             notNull:{msg:`Veillez fournir un mots de passe !`},
-            notEmpty:{msg:`Veillez fournir un mots de passe`},
+            notEmpty:{msg:`Veillez fournir un mots de passe !`},
             is:{
                 args: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/,
                 msg: `Veillez fournir un mots de passe ayant au moins un chiffre , une ou plusieurs lettres majuscules , plus de 8 carractères et pas d'espace blancs !`

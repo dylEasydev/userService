@@ -24,6 +24,7 @@ export class AuthPermission extends Model<
     declare scope?: NonAttribute<ScopeInterface> | undefined;
     declare role?: NonAttribute<RoleInterface> | undefined;
 
+    //declarations d'alias d'associations
     declare static associations:{
         scope: Association<AuthPermissionInterface,ScopeInterface>;
         role: Association<AuthPermissionInterface,RoleInterface>;

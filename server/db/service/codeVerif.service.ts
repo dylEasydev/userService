@@ -35,7 +35,7 @@ class CodeVerifService implements CodeVerifInterfaceService{
                 const user = await sequelizeConnect.transaction(async t=>{
                     return await code.getForeignObject({transaction:t});
                 });
-                if(user === null)reject(new NotFountError(`Aucun utilisateur ne possède ce code!`))
+                if(user === null)reject(new NotFountError(`Aucun utilisateur ne possède ce code !`))
                 else resolve(user);
             } catch (error) {
                 reject(error);
@@ -56,7 +56,7 @@ class CodeVerifService implements CodeVerifInterfaceService{
                             const expiresAt = new Date(Date.now());
                             expiresAt.setHours(expiresAt.getHours()+1);
                             return beforeCode.update({
-                                codeverif:parseInt(generateCode.generateId(4)),
+                                codeverif:parseInt(generateCode.generateId(6)),
                                 expiresAt
                             },{hooks:false});
                         })
