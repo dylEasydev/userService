@@ -9,13 +9,15 @@ export class ProfilUserController extends BaseController{
         try {
             const bearerToken = req.headers.authorization;
             const token = bearerToken?.split(' ')[1];
+            const limit = typeof req.query.limit === 'string'?parseInt(req.query.limit):undefined;
 
             const [domainSubcribes , matterSubcribes ] = await Promise.all(
                 [
-                    await new DomainService(token).getDomainsubcribes(),
-                    token?await new MatterService(token).getMatterSubcribes():await Promise.resolve(null)
+                    await new DomainService(token,req.ip).getDomainsubcribes(limit),
+                    token?await new MatterService(token).getMatterSubcribes(limit):null
                 ]
             )
+            
             const profilUser={
                 domainSubcribes:domainSubcribes.data , 
                 matterSubcribes:matterSubcribes?.data

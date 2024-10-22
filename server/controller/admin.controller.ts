@@ -9,29 +9,6 @@ export class AdminController extends BaseController{
     async deletedUser(req:Request ,res:Response){   
         if(req.params.userName){
             try {
-                const userToken = req.body.token as Token;
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'deleted:user')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de suppression d'un compte!`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de suppression d'un compte !`
-                    );
-                }else{
-                    if(!userToken.scope.includes('deleted:user'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de suppression d'un compte !`
-                        );
-                }
-
                 const userFind = await userService.findUserByName(req.params.userName);
                 if(userFind === null){
                     return statusResponse.sendResponseJson(
@@ -61,29 +38,6 @@ export class AdminController extends BaseController{
     async suspendUser(req:Request , res:Response){
         if(req.params.userName){
             try {
-                const userToken = req.body.token as Token;
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'suspend:user')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de suspenssion  d'un compte!`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de suspenssion  d'un compte!`
-                    );
-                }else{
-                    if(!userToken.scope.includes('suspend:user'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de suspenssion  d'un compte!`
-                        );
-                }
-
                 const userFind = await userService.findUserByName(req.params.userName);
                 if(userFind === null){
                     return statusResponse.sendResponseJson(
@@ -113,28 +67,6 @@ export class AdminController extends BaseController{
     async restoreUser(req:Request , res:Response){
         if(req.params.id){
             try {
-                const userToken = req.body.token as Token;
-                if(typeof userToken.scope ==='string'){
-                    if(userToken.scope !== 'restored:user')
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de restauration d'un compte!`
-                        );
-                }else if(typeof userToken.scope === 'undefined'){
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de restauration d'un compte !`
-                    );
-                }else{
-                    if(!userToken.scope.includes('restored:user'))
-                        return statusResponse.sendResponseJson(
-                            CodeStatut.NOT_PERMISSION_STATUS,
-                            res,
-                            `Aucune Permission de restauration d'un compte !`
-                        );
-                }
                 const id = isNaN(parseInt(req.params.id))?0:parseInt(req.params.id);
                 const userRestore = await userService.restoreUser(id);
                 if(userRestore === null){
@@ -163,28 +95,6 @@ export class AdminController extends BaseController{
 
     async findAllUserSuspend(req:Request ,res:Response){
         try {
-            const userToken = req.body.token as Token;
-            if(typeof userToken.scope ==='string'){
-                if(userToken.scope !== 'find:suspend')
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission !`
-                    );
-            }else if(typeof userToken.scope === 'undefined'){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucune Permission !`
-                );
-            }else{
-                if(!userToken.scope.includes('find:suspend'))
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission !`
-                    );
-            }
             const limit = typeof req.query.limit === 'string' ? parseInt(req.query.limit ):undefined;
             if(req.query.search){
                 const search = typeof req.query.search === 'string' ? req.query.search:'';

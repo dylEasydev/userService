@@ -9,8 +9,8 @@ class UserRouter extends BaseRouter<UserController>{
         this.routerServeur.get('/:userName',this.controllerService.findUserByName);
         this.routerServeur.get('/',this.controllerService.findAllUser);
 
-        this.routerServeur.put('/update/name',auth.secureMiddleware,this.controllerService.updateName);
-        this.routerServeur.put('/update/password',auth.secureMiddleware,this.controllerService.updatePassword);
+        this.routerServeur.put('/update/name',auth.secureMiddleware,auth.verifPermToken('updated:user'),this.controllerService.updateName);
+        this.routerServeur.put('/update/password',auth.secureMiddleware,auth.verifPermToken('updated:user'),this.controllerService.updatePassword);
         this.routerServeur.put('/update/forget/:id',this.controllerService.updatePasswordForget);
 
         this.routerServeur.post('/verifCode/:id',this.controllerService.verifCode)

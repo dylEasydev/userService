@@ -124,27 +124,6 @@ export class UserController extends BaseController{
     async updateName(req:Request , res:Response){
         try {
             const userToken = req.body.token as Token;
-            if(typeof userToken.scope ==='string'){
-                if(userToken.scope !== 'updated:user')
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de mis à jour de  son compte!`
-                    );
-            }else if(typeof userToken.scope === 'undefined'){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucune Permission de mis à jour de son compte !`
-                );
-            }else{
-                if(!userToken.scope.includes('updated:user'))
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de mis à jour de son compte!`
-                    );
-            }
             const userFind = await userService.findUserById(userToken.userId);
             if(userFind === null){
                 return statusResponse.sendResponseJson(
@@ -182,27 +161,6 @@ export class UserController extends BaseController{
     async updatePassword(req:Request , res:Response){
         try {
             const userToken = req.body.token as Token;
-            if(typeof userToken.scope ==='string'){
-                if(userToken.scope !== 'updated:user')
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de mis à jour de  son compte!`
-                    );
-            }else if(typeof userToken.scope === 'undefined'){
-                return statusResponse.sendResponseJson(
-                    CodeStatut.NOT_PERMISSION_STATUS,
-                    res,
-                    `Aucune Permission de mis à jour de son compte !`
-                );
-            }else{
-                if(!userToken.scope.includes('updated:user'))
-                    return statusResponse.sendResponseJson(
-                        CodeStatut.NOT_PERMISSION_STATUS,
-                        res,
-                        `Aucune Permission de mis à jour de son compte!`
-                    );
-            }
             const userFind = await userService.findUserById(userToken.userId);
             if(userFind === null){
                 return statusResponse.sendResponseJson(

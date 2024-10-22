@@ -1,5 +1,5 @@
 import { Matter } from '../../interface';
 
 export interface MatterServiceInterface {
-    getMatterSubcribes():Promise<{message:string; data:Matter[]}>;
+    getMatterSubcribes(limit?:number):Promise<{message:string; data:Matter[]}>;
 }

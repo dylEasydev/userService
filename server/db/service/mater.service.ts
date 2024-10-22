@@ -17,12 +17,12 @@ export class MatterService implements MatterServiceInterface{
             }
         })
     }
-    getMatterSubcribes(){
+    getMatterSubcribes(limit?:number){
         return new Promise<{message:string; data:Matter[] ;}>(async(resolve, reject) => {
             try {
                 const matterSubcribes = await this.axiosRequest.get<
                 {message:string; data:any;}
-                >(`/follow`,{
+                >(`/follow?limit=${limit}`,{
                     validateStatus:(status:number)=>{return status < 500}
                 });
                 if(matterSubcribes.status < 200 || matterSubcribes.status > 300){

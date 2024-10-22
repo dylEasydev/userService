@@ -18,23 +18,24 @@ export class RequestError extends Error{
 export class DomainService implements DomainServiceInterface{
     public axiosRequest: AxiosInstance;
 
-    constructor(jeton?:string){
+    constructor(jeton?:string,ip?:string){
         this.axiosRequest = axios.create({
             baseURL:'http://localhost:3002/',
             timeout:3000,
             headers:{
                 Authorization:`Bearer ${jeton}`,
                 Connection:"keep-alive",
-                Upgrade:"h2"
+                Upgrade:"h2",
+                'X-Forwarded-For':ip
             }
         })
     }
-    getDomainsubcribes(){
+    getDomainsubcribes(limit?:number){
         return new Promise<{message:string; data:Domain[] ;}>(async(resolve, reject) => {
             try {
                 const domainSubcribes = await this.axiosRequest.get<
                 {message:string; data:any;}
-                >(`/follow`,{
+                >(`/follow?limit=${limit}`,{
                     validateStatus:(status:number)=>{return status < 500}
                 });
                 if(domainSubcribes.status < 200 || domainSubcribes.status > 300){
